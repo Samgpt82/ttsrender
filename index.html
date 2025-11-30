@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text to Speech Converter</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎤 Text to Speech Converter</h1>
+            <p>Convert your text or text files into audio</p>
+        </header>
+
+        <main>
+            <div class="input-section">
+                <div class="tabs">
+                    <button class="tab-btn active" data-tab="text">Type Text</button>
+                    <button class="tab-btn" data-tab="file">Upload File</button>
+                </div>
+
+                <div class="tab-content active" id="text-tab">
+                    <textarea 
+                        id="textInput" 
+                        placeholder="Enter your text here... (e.g., Hello, this is a test of the text to speech converter.)"
+                        rows="10"
+                    ></textarea>
+                </div>
+
+                <div class="tab-content" id="file-tab">
+                    <div class="file-upload-area" id="fileUploadArea">
+                        <input type="file" id="fileInput" accept=".txt" hidden>
+                        <div class="upload-icon">📄</div>
+                        <p>Click to upload or drag and drop a .txt file</p>
+                        <p class="file-name" id="fileName"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="controls">
+                <div class="voice-controls">
+                    <label for="voiceSelect">Voice:</label>
+                    <select id="voiceSelect">
+                        <option value="">Default</option>
+                    </select>
+                    
+                    <label for="rateSelect">Speed:</label>
+                    <select id="rateSelect">
+                        <option value="0.5">0.5x</option>
+                        <option value="0.75">0.75x</option>
+                        <option value="1" selected>1x</option>
+                        <option value="1.25">1.25x</option>
+                        <option value="1.5">1.5x</option>
+                        <option value="2">2x</option>
+                    </select>
+
+                    <label for="pitchSelect">Pitch:</label>
+                    <select id="pitchSelect">
+                        <option value="0.5">Low</option>
+                        <option value="1" selected>Normal</option>
+                        <option value="1.5">High</option>
+                        <option value="2">Very High</option>
+                    </select>
+                </div>
+
+                <div class="action-buttons">
+                    <button id="generateBtn" class="btn btn-primary">Generate Audio</button>
+                    <button id="playBtn" class="btn btn-secondary" disabled>Play</button>
+                    <button id="pauseBtn" class="btn btn-secondary" disabled>Pause</button>
+                    <button id="stopBtn" class="btn btn-secondary" disabled>Stop</button>
+                    <button id="downloadBtn" class="btn btn-download" disabled>Download Audio</button>
+                </div>
+            </div>
+
+            <div class="status" id="status"></div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
