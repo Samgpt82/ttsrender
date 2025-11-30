@@ -6,7 +6,7 @@ A simple web application that converts text or text files into audio using text-
 
 - ✨ Modern, responsive UI
 - 📝 Type text directly or upload .txt files
-- 🎤 Multiple OpenAI TTS voices (Alloy, Echo, Fable, Onyx, Nova, Shimmer)
+- 🎤 10 OpenAI TTS voices (Alloy, Ash, Ballad, Coral, Echo, Fable, Onyx, Nova, Sage, Shimmer)
 - 🎯 Two model options: tts-1 (fast) and tts-1-hd (high quality)
 - ⚡ Adjustable speed and pitch for browser playback
 - 🔊 Play, pause, and stop controls

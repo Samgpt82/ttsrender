@@ -39,7 +39,7 @@ def text_to_speech():
             return jsonify({'error': 'No text provided'}), 400
         
         # Validate voice
-        valid_voices = ['alloy', 'echo', 'fable', 'onyx', 'nova', 'shimmer']
+        valid_voices = ['alloy', 'ash', 'ballad', 'coral', 'echo', 'fable', 'onyx', 'nova', 'sage', 'shimmer']
         if voice not in valid_voices:
             voice = 'alloy'
         
@@ -78,10 +78,14 @@ def get_voices():
     # Return available OpenAI TTS voices
     voices = {
         'alloy': 'Alloy - Neutral, balanced voice',
+        'ash': 'Ash - Clear, professional voice',
+        'ballad': 'Ballad - Smooth, melodic voice',
+        'coral': 'Coral - Warm, friendly voice',
         'echo': 'Echo - Clear, confident voice',
         'fable': 'Fable - Warm, expressive voice',
         'onyx': 'Onyx - Deep, authoritative voice',
         'nova': 'Nova - Bright, energetic voice',
+        'sage': 'Sage - Calm, thoughtful voice',
         'shimmer': 'Shimmer - Soft, gentle voice'
     }
     return jsonify(voices)
