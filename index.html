@@ -40,7 +40,23 @@
 
             <div class="controls">
                 <div class="voice-controls">
-                    <label for="voiceSelect">Voice:</label>
+                    <label for="openaiVoiceSelect">OpenAI Voice (for download):</label>
+                    <select id="openaiVoiceSelect">
+                        <option value="alloy">Alloy - Neutral</option>
+                        <option value="echo">Echo - Confident</option>
+                        <option value="fable">Fable - Expressive</option>
+                        <option value="onyx">Onyx - Authoritative</option>
+                        <option value="nova">Nova - Energetic</option>
+                        <option value="shimmer">Shimmer - Gentle</option>
+                    </select>
+                    
+                    <label for="modelSelect">Model:</label>
+                    <select id="modelSelect">
+                        <option value="tts-1" selected>tts-1 (Fast)</option>
+                        <option value="tts-1-hd">tts-1-hd (High Quality)</option>
+                    </select>
+                    
+                    <label for="voiceSelect">Browser Voice (for playback):</label>
                     <select id="voiceSelect">
                         <option value="">Default</option>
                     </select>

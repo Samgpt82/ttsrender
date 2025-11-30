@@ -15,6 +15,8 @@ const textInput = document.getElementById('textInput');
 const fileInput = document.getElementById('fileInput');
 const fileUploadArea = document.getElementById('fileUploadArea');
 const fileName = document.getElementById('fileName');
+const openaiVoiceSelect = document.getElementById('openaiVoiceSelect');
+const modelSelect = document.getElementById('modelSelect');
 const voiceSelect = document.getElementById('voiceSelect');
 const rateSelect = document.getElementById('rateSelect');
 const pitchSelect = document.getElementById('pitchSelect');
@@ -261,8 +263,8 @@ downloadBtn.addEventListener('click', async () => {
                 },
                 body: JSON.stringify({
                     text: text,
-                    lang: 'en',
-                    slow: false
+                    voice: openaiVoiceSelect.value || 'alloy',
+                    model: modelSelect.value || 'tts-1'
                 })
             });
             
@@ -278,6 +280,11 @@ downloadBtn.addEventListener('click', async () => {
                 URL.revokeObjectURL(url);
                 
                 showStatus('Audio downloaded successfully!', 'success');
+                return;
+            } else {
+                // Handle API errors
+                const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
+                showStatus('Error: ' + (errorData.error || 'Failed to generate audio'), 'error');
                 return;
             }
         } catch (backendError) {

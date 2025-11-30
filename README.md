@@ -6,11 +6,12 @@ A simple web application that converts text or text files into audio using text-
 
 - ✨ Modern, responsive UI
 - 📝 Type text directly or upload .txt files
-- 🎤 Multiple voice options (browser-based)
-- ⚡ Adjustable speed and pitch
+- 🎤 Multiple OpenAI TTS voices (Alloy, Echo, Fable, Onyx, Nova, Shimmer)
+- 🎯 Two model options: tts-1 (fast) and tts-1-hd (high quality)
+- ⚡ Adjustable speed and pitch for browser playback
 - 🔊 Play, pause, and stop controls
-- 💾 Download audio files (with backend)
-- 🌐 Works entirely in browser (frontend-only mode)
+- 💾 Download high-quality MP3 audio files
+- 🌐 Works entirely in browser (frontend-only mode for playback)
 
 ## Quick Start
 
@@ -22,24 +23,47 @@ Simply open `index.html` in your web browser. This uses the Web Speech API and w
 
 ### Option 2: With Python Backend (Recommended for Audio Downloads)
 
-1. **Install Python dependencies:**
+1. **Set your OpenAI API key:**
+   
+   **Windows (PowerShell):**
+   ```powershell
+   $env:OPENAI_API_KEY="your-api-key-here"
+   ```
+   
+   **Windows (Command Prompt):**
+   ```cmd
+   set OPENAI_API_KEY=your-api-key-here
+   ```
+   
+   **Linux/Mac:**
+   ```bash
+   export OPENAI_API_KEY="your-api-key-here"
+   ```
+   
+   Or create a `.env` file (not recommended for production):
+   ```
+   OPENAI_API_KEY=your-api-key-here
+   ```
+
+2. **Install Python dependencies:**
    ```bash
    pip install -r requirements.txt
    ```
 
-2. **Run the Flask server:**
+3. **Run the Flask server:**
    ```bash
    python app.py
    ```
 
-3. **Open your browser and navigate to:**
+4. **Open your browser and navigate to:**
    ```
    http://localhost:5000
    ```
 
-The backend uses Google Text-to-Speech (gTTS) which provides:
-- High-quality audio generation
-- Multiple language support
+The backend uses OpenAI's TTS API which provides:
+- High-quality audio generation with natural voices
+- 6 different voice options (Alloy, Echo, Fable, Onyx, Nova, Shimmer)
+- Two model options: tts-1 (fast) and tts-1-hd (high quality)
 - Downloadable MP3 files
 
 ## Usage
@@ -49,9 +73,11 @@ The backend uses Google Text-to-Speech (gTTS) which provides:
    - Click "Upload File" and select a .txt file
 
 2. **Customize (optional):**
-   - Select a voice
-   - Adjust speed (0.5x to 2x)
-   - Adjust pitch (Low to Very High)
+   - Select an OpenAI voice for downloads (Alloy, Echo, Fable, Onyx, Nova, or Shimmer)
+   - Choose model quality (tts-1 for speed, tts-1-hd for quality)
+   - Select browser voice for playback
+   - Adjust speed (0.5x to 2x) - browser playback only
+   - Adjust pitch (Low to Very High) - browser playback only
 
 3. **Generate Audio:**
    - Click "Generate Audio"
@@ -96,6 +122,9 @@ This app is ready to deploy to Render (or similar platforms like Railway, Heroku
      - **Environment:** Python 3
      - **Build Command:** `pip install -r requirements.txt`
      - **Start Command:** `gunicorn app:app`
+   - **Add Environment Variable:**
+     - Key: `OPENAI_API_KEY`
+     - Value: Your OpenAI API key
    - Click "Create Web Service"
    - Wait for deployment (usually 2-3 minutes)
 
@@ -110,8 +139,18 @@ This app is ready to deploy to Render (or similar platforms like Railway, Heroku
 
 - **Frontend:** HTML5, CSS3, JavaScript
 - **Backend:** Python, Flask
-- **TTS Engine:** Web Speech API (browser) / gTTS (backend)
+- **TTS Engine:** Web Speech API (browser playback) / OpenAI TTS API (audio downloads)
 - **Deployment:** Gunicorn (WSGI server)
+
+## OpenAI API Setup
+
+This app requires an OpenAI API key for generating downloadable audio files. 
+
+1. Get your API key from [OpenAI Platform](https://platform.openai.com/api-keys)
+2. Set it as an environment variable (see Quick Start section)
+3. The API key is only used server-side and never exposed to the client
+
+**Note:** OpenAI TTS API usage is billed per character. Check [OpenAI Pricing](https://openai.com/pricing) for current rates.
 
 ## License
 

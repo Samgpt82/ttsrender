@@ -2,11 +2,18 @@ from flask import Flask, request, jsonify, send_file, send_from_directory
 from flask_cors import CORS
 import os
 import tempfile
-from gtts import gTTS
+from openai import OpenAI
 import io
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for frontend
+
+# Initialize OpenAI client (will be None if API key not set)
+def get_openai_client():
+    api_key = os.environ.get('OPENAI_API_KEY')
+    if not api_key:
+        return None
+    return OpenAI(api_key=api_key)
 
 @app.route('/')
 def index():
@@ -25,21 +32,35 @@ def text_to_speech():
     try:
         data = request.json
         text = data.get('text', '').strip()
-        lang = data.get('lang', 'en')
-        slow = data.get('slow', False)
+        voice = data.get('voice', 'alloy')  # Default to 'alloy'
+        model = data.get('model', 'tts-1')  # Use tts-1 (faster) or tts-1-hd (higher quality)
         
         if not text:
             return jsonify({'error': 'No text provided'}), 400
         
-        # Generate speech
-        tts = gTTS(text=text, lang=lang, slow=slow)
+        # Validate voice
+        valid_voices = ['alloy', 'echo', 'fable', 'onyx', 'nova', 'shimmer']
+        if voice not in valid_voices:
+            voice = 'alloy'
+        
+        # Check if API key is set and get client
+        openai_client = get_openai_client()
+        if not openai_client:
+            return jsonify({'error': 'OPENAI_API_KEY not configured. Please set the OPENAI_API_KEY environment variable.'}), 500
+        
+        # Generate speech using OpenAI TTS
+        response = openai_client.audio.speech.create(
+            model=model,
+            voice=voice,
+            input=text
+        )
         
         # Create temporary file
         temp_file = tempfile.NamedTemporaryFile(delete=False, suffix='.mp3')
         temp_file.close()
         
         # Save audio to file
-        tts.save(temp_file.name)
+        response.stream_to_file(temp_file.name)
         
         # Return the audio file
         return send_file(
@@ -54,22 +75,16 @@ def text_to_speech():
 
 @app.route('/api/voices', methods=['GET'])
 def get_voices():
-    # Return available languages for gTTS
-    languages = {
-        'en': 'English',
-        'es': 'Spanish',
-        'fr': 'French',
-        'de': 'German',
-        'it': 'Italian',
-        'pt': 'Portuguese',
-        'ru': 'Russian',
-        'ja': 'Japanese',
-        'ko': 'Korean',
-        'zh': 'Chinese',
-        'ar': 'Arabic',
-        'hi': 'Hindi',
+    # Return available OpenAI TTS voices
+    voices = {
+        'alloy': 'Alloy - Neutral, balanced voice',
+        'echo': 'Echo - Clear, confident voice',
+        'fable': 'Fable - Warm, expressive voice',
+        'onyx': 'Onyx - Deep, authoritative voice',
+        'nova': 'Nova - Bright, energetic voice',
+        'shimmer': 'Shimmer - Soft, gentle voice'
     }
-    return jsonify(languages)
+    return jsonify(voices)
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
